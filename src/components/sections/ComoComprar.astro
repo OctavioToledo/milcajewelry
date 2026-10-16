@@ -8,7 +8,7 @@ const { comoComprar } = sections;
 <section id="como-comprar" aria-labelledby="como-comprar-title" class="bg-join-blush py-16 md:py-24">
   <div class="container-x flex flex-col gap-12">
     <SectionTitle id="como-comprar-title" variant="statement" eyebrow="En 4 pasos">{comoComprar.title}</SectionTitle>
-    <ol class="grid grid-cols-2 gap-x-12 gap-y-8 md:grid-cols-4">
+    <ol class="grid grid-cols-2 gap-x-12 gap-y-8 md:grid-cols-4" data-stagger="wipe">
       {
         comoComprar.steps.map((s, i) => (
           <li class="flex flex-col gap-6 border-t border-cocoa-ink pt-12">

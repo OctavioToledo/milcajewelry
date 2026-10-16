@@ -10,6 +10,8 @@ const { nosotros } = sections;
 <section id="nosotros" aria-labelledby="nosotros-title" class="overflow-hidden bg-milk-paper py-16 md:py-24">
   <div class="container-x grid gap-12 md:grid-cols-12 md:items-center">
     <div class="relative md:col-span-5">
+      <div class="parallax-frame" data-reveal="img">
+      <div data-parallax="0.06">
       <Picture
         src={portrait}
         alt="Retrato de cerca de una modelo con la Gargantilla Corazón de Milca"
@@ -19,14 +21,16 @@ const { nosotros } = sections;
         fallbackFormat="webp"
         class="aspect-[4/5] w-full object-cover"
       />
-      <svg class="pointer-events-none absolute -bottom-[14%] -right-[18%] w-[58%]" viewBox="0 0 200 200" aria-hidden="true">
-        <circle cx="100" cy="100" r="99" fill="none" stroke="var(--color-fine-grey)" stroke-width="0.6" />
+      </div>
+      </div>
+      <svg class="pointer-events-none absolute -bottom-[14%] -right-[18%] w-[58%]" viewBox="0 0 200 200" aria-hidden="true" data-draw data-parallax="-0.12">
+        <circle cx="100" cy="100" r="99" fill="none" stroke="var(--color-fine-grey)" stroke-width="0.6" pathLength="1" />
       </svg>
     </div>
     <div class="flex flex-col gap-12 md:col-span-5 md:col-start-8">
-      <p class="eyebrow">{nosotros.title} · {site.location.label}</p>
-      <h2 id="nosotros-title" class="statement">{nosotros.statement}</h2>
-      {nosotros.text.map((t) => <p class="max-w-[52ch] text-cocoa-ink/80">{t}</p>)}
+      <p class="eyebrow" data-reveal="fade">{nosotros.title} · {site.location.label}</p>
+      <h2 id="nosotros-title" class="statement" data-split="words">{nosotros.statement}</h2>
+      {nosotros.text.map((t, i) => <p class="max-w-[52ch] text-cocoa-ink/80" data-reveal="up" style={`--d: ${300 + i * 120}ms`}>{t}</p>)}
     </div>
   </div>
 </section>

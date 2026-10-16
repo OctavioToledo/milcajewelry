@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/Hero.astro";
+import Marquee from "../components/Marquee.astro";
 import Novedades from "../components/sections/Novedades.astro";
 import Catalogo from "../components/sections/Catalogo.astro";
 import Regalo from "../components/sections/Regalo.astro";
@@ -12,32 +13,49 @@ import Nosotros from "../components/sections/Nosotros.astro";
 import Faq from "../components/sections/Faq.astro";
 import Instagram from "../components/sections/Instagram.astro";
 import { site } from "../content/site";
-import { getImage } from "astro:assets";
-import heroImage from "../assets/products/aros-flora/02.webp";
-
-const og = await getImage({ src: heroImage, format: "jpeg", width: heroImage.width });
+import { faq } from "../content/faq";
 
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "JewelryStore",
-  name: site.fullName,
-  description: site.description,
-  url: site.url,
-  image: new URL(og.src, site.url).href,
-  sameAs: [site.instagram.url],
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: site.location.city,
-    addressRegion: site.location.province,
-    addressCountry: "AR",
-  },
-  paymentAccepted: "Efectivo, Transferencia",
-  currenciesAccepted: "ARS",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${site.url}/#website`,
+      name: site.fullName,
+      alternateName: site.name,
+      url: site.url,
+      inLanguage: "es-AR",
+    },
+    {
+      "@type": "JewelryStore",
+      "@id": `${site.url}/#store`,
+      name: site.fullName,
+      description: site.description,
+      url: site.url,
+      logo: new URL("/icon-512.png", site.url).href,
+      image: new URL("/og.jpg", site.url).href,
+      sameAs: [site.instagram.url],
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: site.location.city,
+        addressRegion: site.location.province,
+        addressCountry: "AR",
+      },
+      paymentAccepted: "Efectivo, Transferencia",
+      currenciesAccepted: "ARS",
+      areaServed: { "@type": "Country", name: "Argentina" },
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: faq.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+    },
+  ],
 };
 ---
 
 <BaseLayout jsonLd={jsonLd}>
   <Hero />
+  <Marquee items={site.marquee} class="border-y border-cocoa-ink bg-cocoa-ink py-[18px] text-milk-paper md:py-6" />
   <Novedades />
   <Catalogo />
   <Regalo />

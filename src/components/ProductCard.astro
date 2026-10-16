@@ -15,7 +15,7 @@ const Heading = headingLevel;
 ---
 
 <article class="product-card group relative flex flex-col gap-8">
-  <div class="relative aspect-[4/5] overflow-hidden bg-milk-paper">
+  <div class="sheen relative aspect-[4/5] overflow-hidden bg-milk-paper" data-vt-photo>
     <Picture
       src={cover.src}
       alt={cover.alt}
@@ -43,7 +43,7 @@ const Heading = headingLevel;
   <div class="flex flex-col gap-[2px]">
     <Heading class="font-ui text-[14px] font-semibold uppercase leading-tight tracking-[0.02em]">
       <a href={`/producto/${product.slug}`} class="after:absolute after:inset-0 focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:outline-offset-4 focus-visible:after:outline-cocoa-ink">
-        {product.name}
+        <span class="link-grow">{product.name}</span>
       </a>
     </Heading>
     <p class="text-[13px] text-cocoa-ink/70">{product.material}</p>

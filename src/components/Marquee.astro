@@ -1,0 +1,32 @@
+---
+/**
+ * Cinta de texto que corre de lado a lado (acelera y cambia de sentido con el scroll,
+ * ver setupMarquee en src/scripts/motion.ts). Decorativa: los lectores de pantalla la saltean.
+ */
+interface Props {
+  items: readonly string[];
+  class?: string;
+}
+const { items, class: className } = Astro.props;
+// Dos copias idénticas: el script desplaza media pista y vuelve a empezar sin salto.
+const copies = [0, 1];
+---
+
+<div class:list={["overflow-hidden", className]} aria-hidden="true">
+  <div class="marquee-track" data-marquee>
+    {
+      copies.map(() => (
+        <div class="flex shrink-0 items-center">
+          {items.map((item) => (
+            <span class="flex items-center">
+              <span class="display whitespace-nowrap px-[0.5em] text-[clamp(28px,5vw,56px)] leading-none">{item}</span>
+              <svg class="size-[clamp(14px,1.6vw,20px)] shrink-0 text-profile-copper" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M10 0c.6 5.4 4.6 9.4 10 10-5.4.6-9.4 4.6-10 10-.6-5.4-4.6-9.4-10-10C5.4 9.4 9.4 5.4 10 0Z" />
+              </svg>
+            </span>
+          ))}
+        </div>
+      ))
+    }
+  </div>
+</div>

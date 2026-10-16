@@ -4,7 +4,7 @@ import Icon from "./Icon.astro";
 import { site } from "../content/site";
 ---
 
-<header class="sticky top-0 z-40 border-b border-cocoa-ink/10 bg-paper-white/95 backdrop-blur-sm">
+<header class="sticky top-0 z-40 border-b border-cocoa-ink/10 bg-paper-white/95 backdrop-blur-sm [view-transition-name:site-header]" data-site-header>
   <div class="container-x flex h-[60px] items-center justify-between gap-12 md:h-[72px]">
     <a href="/" class="-ml-2 flex min-h-11 items-center px-2" aria-label={`${site.fullName}, inicio`}>
       <Logo class="h-[30px] w-auto md:h-[36px]" aria-hidden="true" />
@@ -15,8 +15,8 @@ import { site } from "../content/site";
         {
           site.nav.map((item) => (
             <li>
-              <a href={item.href} class="nav-control inline-flex min-h-11 items-center px-8 hover:underline">
-                {item.label}
+              <a href={item.href} class="nav-control inline-flex min-h-11 items-center px-8">
+                <span class="link-grow pb-[2px]">{item.label}</span>
               </a>
             </li>
           ))
@@ -41,4 +41,5 @@ import { site } from "../content/site";
       </button>
     </div>
   </div>
+  <span class="scroll-progress" aria-hidden="true"></span>
 </header>

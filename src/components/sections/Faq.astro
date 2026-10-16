@@ -5,12 +5,12 @@ import { sections } from "../../content/sections";
 
 <section id="faq" aria-labelledby="faq-title" class="py-16 md:py-24">
   <div class="container-x grid gap-12 md:grid-cols-12">
-    <h2 id="faq-title" class="statement md:col-span-4">{sections.faq.title}</h2>
-    <div class="border-b border-cocoa-ink md:col-span-7 md:col-start-6">
+    <h2 id="faq-title" class="statement md:col-span-4" data-split="words">{sections.faq.title}</h2>
+    <div class="border-b border-cocoa-ink md:col-span-7 md:col-start-6" data-stagger="wipe">
       {
         faq.map((item) => (
           <details class="faq-item group border-t border-cocoa-ink" name="faq">
-            <summary class="flex min-h-[56px] cursor-pointer list-none items-center justify-between gap-12 py-12 font-ui text-[16px] font-semibold [&::-webkit-details-marker]:hidden">
+            <summary class="flex min-h-[56px] cursor-pointer list-none items-center justify-between gap-12 py-12 font-ui text-[16px] font-semibold transition-[padding] duration-500 ease-[var(--ease-editorial)] hover:pl-6 [&::-webkit-details-marker]:hidden">
               {item.q}
               <span class="relative size-4 shrink-0" aria-hidden="true">
                 <span class="absolute left-0 top-1/2 h-px w-4 bg-current" />

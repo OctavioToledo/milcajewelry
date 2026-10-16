@@ -11,6 +11,8 @@ const products = (await getProductsInCollection("para-regalo")).slice(0, 4);
 <section id="regalo" aria-labelledby="regalo-title" class="on-dark overflow-hidden bg-home-umber text-milk-paper">
   <div class="container-x grid gap-12 py-16 md:grid-cols-12 md:py-24">
     <div class="relative md:col-span-5">
+      <div class="parallax-frame" data-reveal="img">
+      <div data-parallax="0.06">
       <Picture
         src={packaging}
         alt="Bolsas de regalo blancas de Milca con moño de cinta bordó"
@@ -20,16 +22,18 @@ const products = (await getProductsInCollection("para-regalo")).slice(0, 4);
         fallbackFormat="webp"
         class="aspect-[4/5] w-full object-cover"
       />
-      <svg class="pointer-events-none absolute -right-[30%] -top-[12%] w-[70%]" viewBox="0 0 200 200" aria-hidden="true">
-        <circle cx="100" cy="100" r="99" fill="none" stroke="var(--color-fine-grey)" stroke-width="0.5" />
+      </div>
+      </div>
+      <svg class="pointer-events-none absolute -right-[30%] -top-[12%] w-[70%]" viewBox="0 0 200 200" aria-hidden="true" data-draw data-parallax="-0.1">
+        <circle cx="100" cy="100" r="99" fill="none" stroke="var(--color-fine-grey)" stroke-width="0.5" pathLength="1" />
       </svg>
     </div>
 
     <div class="flex flex-col justify-center gap-12 md:col-span-6 md:col-start-7">
-      <h2 id="regalo-title" class="display text-[clamp(56px,15vw,132px)] text-talent-peach">{sections.regalo.title}</h2>
-      <p class="statement text-talent-peach">{sections.regalo.statement}</p>
-      <p class="max-w-[46ch] text-milk-paper/85">{sections.regalo.text}</p>
-      <a href="/?coleccion=para-regalo#catalogo" class="btn btn-outline self-start border-milk-paper text-milk-paper hover:bg-milk-paper hover:text-cocoa-ink">
+      <h2 id="regalo-title" class="display text-[clamp(56px,15vw,132px)] text-talent-peach" data-split="chars">{sections.regalo.title}</h2>
+      <p class="statement text-talent-peach" data-split="words" style="--d: 250ms">{sections.regalo.statement}</p>
+      <p class="max-w-[46ch] text-milk-paper/85" data-reveal="up" style="--d: 400ms">{sections.regalo.text}</p>
+      <a href="/?coleccion=para-regalo#catalogo" class="btn btn-outline self-start border-milk-paper text-milk-paper hover:text-cocoa-ink" data-reveal="up" style="--d: 500ms">
         Ver piezas para regalo
       </a>
     </div>
@@ -38,7 +42,7 @@ const products = (await getProductsInCollection("para-regalo")).slice(0, 4);
   {
     products.length > 0 && (
       <div class="bg-milk-paper py-12 text-cocoa-ink md:py-16">
-        <ul class="container-x grid grid-cols-2 gap-x-12 gap-y-8 md:grid-cols-4" aria-label="Piezas para regalo">
+        <ul class="container-x grid grid-cols-2 gap-x-12 gap-y-8 md:grid-cols-4" aria-label="Piezas para regalo" data-stagger="card">
           {products.map((p) => (
             <li>
               <ProductCard product={p} />

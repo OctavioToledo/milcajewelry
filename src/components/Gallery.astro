@@ -29,6 +29,8 @@ const large = await Promise.all(images.map((img) => getImage({ src: img.src, for
                 fallbackFormat="webp"
                 loading={i === 0 ? "eager" : "lazy"}
                 fetchpriority={i === 0 ? "high" : "auto"}
+                data-vt-photo={i === 0 ? "" : undefined}
+                style={i === 0 ? "view-transition-name: product-photo" : undefined}
                 class="aspect-[4/5] w-full bg-milk-paper object-cover"
               />
             </button>

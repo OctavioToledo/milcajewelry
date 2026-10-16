@@ -69,15 +69,15 @@ const description = product.description.length > 155 ? `${product.description.sl
     <div class="flex flex-col gap-12 md:col-span-5 md:col-start-8 lg:col-span-5 lg:col-start-8">
       <div class="flex flex-col gap-8 md:sticky md:top-[96px]">
         <StatusBadge status={product.status} isNew={product.isNew} class="self-start" />
-        <h1 class="display text-[clamp(44px,12vw,76px)]">{product.name}</h1>
-        <p class="eyebrow text-cocoa-ink/70">{product.material}</p>
-        <Price value={product.price} class="font-ui text-[22px] font-semibold" />
+        <h1 class="display text-[clamp(44px,12vw,76px)]" data-split="chars">{product.name}</h1>
+        <p class="eyebrow text-cocoa-ink/70" data-reveal="up" style="--d: 250ms">{product.material}</p>
+        <div data-reveal="up" style="--d: 330ms"><Price value={product.price} class="font-ui text-[22px] font-semibold" /></div>
 
-        <div class="mt-6">
+        <div class="mt-6" data-reveal="up" style="--d: 420ms">
           <ProductBuy product={product} url={url} />
         </div>
 
-        <div class="mt-6 flex flex-col gap-12 border-t border-cocoa-ink pt-12">
+        <div class="mt-6 flex flex-col gap-12 border-t border-cocoa-ink pt-12" data-reveal="wipe" style="--d: 520ms">
           <p class="text-[16px] leading-[1.5]">{product.description}</p>
           {
             product.details && product.details.length > 0 && (
@@ -116,10 +116,10 @@ const description = product.description.length > 155 ? `${product.description.sl
     related.length > 0 && (
       <section aria-labelledby="relacionados-title" class="bg-milk-paper py-16 md:py-24">
         <div class="container-x flex flex-col gap-8">
-          <h2 id="relacionados-title" class="statement">
+          <h2 id="relacionados-title" class="statement" data-split="words">
             También te puede gustar
           </h2>
-          <ul class="grid grid-cols-2 gap-x-12 gap-y-8 md:grid-cols-4">
+          <ul class="grid grid-cols-2 gap-x-12 gap-y-8 md:grid-cols-4" data-stagger="card">
             {related.map((p) => (
               <li>
                 <ProductCard product={p} />

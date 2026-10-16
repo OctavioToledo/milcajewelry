@@ -7,7 +7,6 @@ import Footer from "../components/Footer.astro";
 import WhatsAppFloat from "../components/WhatsAppFloat.astro";
 import CartDrawer from "../components/CartDrawer.astro";
 import { site } from "../content/site";
-import heroImage from "../assets/products/aros-flora/02.webp";
 
 interface Props {
   title?: string;
@@ -21,15 +20,18 @@ interface Props {
 const {
   title,
   description = site.description,
-  image = heroImage,
-  imageAlt = `${site.fullName} — ${site.tagline}`,
+  image,
+  imageAlt = `${site.fullName} — ${site.tagline}: aros, collares, pulseras y anillos`,
   type = "website",
   jsonLd,
 } = Astro.props;
 
-const fullTitle = title ? `${title} · ${site.fullName}` : `${site.fullName} · ${site.tagline}`;
+const fullTitle = title ? `${title} · ${site.fullName}` : site.homeTitle;
 const canonical = new URL(Astro.url.pathname, Astro.site ?? site.url).href;
-const og = await getImage({ src: image, format: "jpeg", width: Math.min(image.width, 1200) });
+// Sin imagen propia usamos la tarjeta de marca 1200×630 (npm run share).
+const og = image
+  ? await getImage({ src: image, format: "jpeg", width: Math.min(image.width, 1200) })
+  : { src: "/og.jpg", attributes: { width: 1200, height: 630 } };
 const ogUrl = new URL(og.src, Astro.site ?? site.url).href;
 ---
 
@@ -37,12 +39,26 @@ const ogUrl = new URL(og.src, Astro.site ?? site.url).href;
 <html lang="es-AR">
   <head>
     <meta charset="utf-8" />
+    <!-- Habilita las animaciones de entrada; si motion.ts no carga, se quita para no dejar nada oculto. -->
+    <script is:inline>
+      document.documentElement.classList.add("js");
+      setTimeout(function () {
+        if (!window.__motion) document.documentElement.classList.remove("js");
+      }, 2500);
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="author" content={site.fullName} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#ffffff" />
+    <meta name="apple-mobile-web-app-title" content={site.name} />
 
     <meta property="og:type" content={type === "product" ? "product" : "website"} />
     <meta property="og:site_name" content={site.fullName} />
@@ -51,6 +67,8 @@ const ogUrl = new URL(og.src, Astro.site ?? site.url).href;
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogUrl} />
+    <meta property="og:image:secure_url" content={ogUrl} />
+    <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:width" content={String(og.attributes.width)} />
     <meta property="og:image:height" content={String(og.attributes.height)} />
     <meta property="og:image:alt" content={imageAlt} />
@@ -58,6 +76,7 @@ const ogUrl = new URL(og.src, Astro.site ?? site.url).href;
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogUrl} />
+    <meta name="twitter:image:alt" content={imageAlt} />
 
     {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
   </head>
@@ -74,5 +93,8 @@ const ogUrl = new URL(og.src, Astro.site ?? site.url).href;
     <Footer />
     <WhatsAppFloat />
     <CartDrawer />
+    <script>
+      import "../scripts/motion.ts";
+    </script>
   </body>
 </html>

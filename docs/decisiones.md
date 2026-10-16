@@ -27,3 +27,7 @@ Criterios tomados donde `DESIGN.md` o el contexto no definían algo.
 - **Lighthouse mobile (build de producción):** 100 / 100 / 100 / 100 en la home y en la ficha.
 - **Astro en lugar de Next.js:** genera todo estático y solo carga JS en las islas interactivas (carrito, galería, filtros).
 - **Imágenes:** el script `npm run images` genera masters WebP de alta calidad; `astro:assets` produce los anchos y formatos AVIF/WebP en el build.
+
+## Movimiento y vista previa del link
+- **Animaciones al hacer scroll:** `src/scripts/motion.ts` (sin librerías) + estilos al final de `global.css`. Se activan con atributos: `data-reveal`, `data-stagger`, `data-split` (títulos letra por letra / palabra por palabra), `data-parallax`, `data-draw` (círculos que se dibujan). También: header que se esconde al bajar, barra de progreso, cinta de texto (`Marquee.astro`), botones con relleno y brillo, y transición entre páginas donde la foto de la card viaja a la ficha (View Transitions, Chrome/Edge/Safari 18.2+). Todo respeta `prefers-reduced-motion` y, si el JS no carga, nada queda oculto.
+- **Vista previa al compartir:** la home usa `public/og.jpg` (1200×630, foto + logo); las fichas usan la foto del producto. Íconos PNG, apple-touch-icon y manifest se generan con `npm run share` (volver a correrlo si cambia el logo o la foto del hero).

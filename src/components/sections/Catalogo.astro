@@ -12,7 +12,7 @@ const chip =
 <section id="catalogo" aria-labelledby="catalogo-title" class="py-16 md:py-24">
   <div class="container-x flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
     <SectionTitle id="catalogo-title">{sections.catalogo.title}</SectionTitle>
-    <p class="max-w-[36ch] text-cocoa-ink/80 md:pb-3">{sections.catalogo.text}</p>
+    <p class="max-w-[36ch] text-cocoa-ink/80 md:pb-3" data-reveal="up">{sections.catalogo.text}</p>
   </div>
 
   <div class="mx-auto max-w-[1440px]">
@@ -21,6 +21,7 @@ const chip =
       role="group"
       aria-label="Filtrar el catálogo"
       data-catalog-filters
+      data-stagger="up"
     >
       <button type="button" class={chip} data-filter="" aria-pressed="true">{sections.catalogo.all}</button>
       {
@@ -43,7 +44,7 @@ const chip =
 
   <div class="container-x mt-8">
     <p class="sr-only" aria-live="polite" data-catalog-status></p>
-    <ul class="grid grid-cols-2 gap-x-12 gap-y-8 md:grid-cols-3 md:gap-y-12 lg:grid-cols-4" data-catalog-grid>
+    <ul class="grid grid-cols-2 gap-x-12 gap-y-8 md:grid-cols-3 md:gap-y-12 lg:grid-cols-4" data-catalog-grid data-stagger="card">
       {
         products.map((p) => (
           <li data-category={p.category} data-collections={(p.collections ?? []).join(" ")}>
@@ -79,6 +80,7 @@ const chip =
     });
     empty?.classList.toggle("hidden", visible > 0);
     if (status) status.textContent = `${visible} ${visible === 1 ? "pieza" : "piezas"}`;
+    if (updateUrl) document.dispatchEvent(new CustomEvent("catalog:filter"));
 
     if (updateUrl) {
       const url = new URL(location.href);

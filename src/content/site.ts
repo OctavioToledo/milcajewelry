@@ -7,8 +7,10 @@ export const site = {
   fullName: "Milca Jewelry",
   tagline: "Essential Jewelry",
   url: "https://milcajewelry.pages.dev", // TODO: dominio definitivo
+  // Título de la home en Google y al compartir el link (≤ 60 caracteres).
+  homeTitle: "Milca Jewelry · Joyas doradas para todos los días",
   description:
-    "Joyas esenciales para todos los días. Aros, collares, pulseras y anillos desde San Martín, Mendoza, con envíos a todo el país.",
+    "Joyas doradas para usar todos los días: aros, collares, pulseras y anillos de acero con baño de oro. Desde Mendoza, con envíos a todo el país.",
   location: {
     city: "San Martín",
     province: "Mendoza",
@@ -33,6 +35,9 @@ export const site = {
     text: "Piezas doradas con detalles que se notan. Elegí la tuya, armá tu pedido y lo terminamos juntas por WhatsApp.",
     cta: "Ver colección",
   },
+
+  // Cinta de texto debajo del hero.
+  marquee: ["Essential Jewelry", "Acero con baño de oro", "Envíos a todo el país", "Listas para regalar", "Desde Mendoza"],
 
   credit: { label: "Sitio por Devott", url: "https://devott.com" }, // TODO: URL de Devott
 } as const;

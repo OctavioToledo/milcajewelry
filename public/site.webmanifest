@@ -1,0 +1,13 @@
+{
+  "name": "Milca Jewelry",
+  "short_name": "Milca",
+  "description": "Joyas esenciales para todos los días, desde Mendoza.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1b0800",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

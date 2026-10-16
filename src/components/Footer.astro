@@ -10,8 +10,8 @@ import { GENERAL_MESSAGE, whatsappLink } from "../lib/whatsapp";
   <div class="container-x grid gap-12 py-16 md:grid-cols-[1.4fr_1fr_1fr] md:py-24">
     <div class="flex flex-col gap-12">
       <Logo class="h-[44px] w-auto self-start text-milk-paper" aria-hidden="true" />
-      <p class="statement max-w-[14ch] text-talent-peach">{sections.contacto.text}</p>
-      <a class="btn btn-outline self-start border-milk-paper text-milk-paper hover:bg-milk-paper hover:text-cocoa-ink" href={whatsappLink(GENERAL_MESSAGE)} target="_blank" rel="noopener">
+      <p class="statement max-w-[14ch] text-talent-peach" data-split="words">{sections.contacto.text}</p>
+      <a class="btn btn-outline self-start border-milk-paper text-milk-paper hover:text-cocoa-ink" href={whatsappLink(GENERAL_MESSAGE)} target="_blank" rel="noopener">
         <Icon name="whatsapp" size={18} />
         {sections.contacto.whatsappCta}
       </a>
@@ -22,15 +22,15 @@ import { GENERAL_MESSAGE, whatsappLink } from "../lib/whatsapp";
       <ul class="flex flex-col gap-6 text-[15px]">
         <li>{site.location.label}</li>
         <li>
-          <a class="inline-flex min-h-11 items-center gap-8 hover:underline" href={site.instagram.url} target="_blank" rel="noopener">
+          <a class="inline-flex min-h-11 items-center gap-8" href={site.instagram.url} target="_blank" rel="noopener">
             <Icon name="instagram" size={18} />
-            {site.instagram.handle}
+            <span class="link-grow">{site.instagram.handle}</span>
           </a>
         </li>
         <li>
-          <a class="inline-flex min-h-11 items-center gap-8 hover:underline" href={whatsappLink(GENERAL_MESSAGE)} target="_blank" rel="noopener">
+          <a class="inline-flex min-h-11 items-center gap-8" href={whatsappLink(GENERAL_MESSAGE)} target="_blank" rel="noopener">
             <Icon name="whatsapp" size={18} />
-            WhatsApp
+            <span class="link-grow">WhatsApp</span>
           </a>
         </li>
       </ul>
@@ -42,13 +42,13 @@ import { GENERAL_MESSAGE, whatsappLink } from "../lib/whatsapp";
         {
           sections.guias.items.map((g) => (
             <li>
-              <a class="inline-flex min-h-11 items-center hover:underline" href={g.href}>
-                {g.title}
+              <a class="inline-flex min-h-11 items-center" href={g.href}>
+                <span class="link-grow">{g.title}</span>
               </a>
             </li>
           ))
         }
-        <li><a class="inline-flex min-h-11 items-center hover:underline" href="/#faq">{sections.faq.title}</a></li>
+        <li><a class="inline-flex min-h-11 items-center" href="/#faq"><span class="link-grow">{sections.faq.title}</span></a></li>
       </ul>
     </div>
   </div>

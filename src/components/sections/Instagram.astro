@@ -23,16 +23,16 @@ const feed = [
 <section id="instagram" aria-labelledby="instagram-title" class="pb-16 md:pb-24">
   <div class="container-x flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
     <div class="flex flex-col gap-6">
-      <p class="eyebrow">{site.instagram.handle}</p>
-      <h2 id="instagram-title" class="statement">{sections.instagram.title}</h2>
-      <p class="text-cocoa-ink/80">{sections.instagram.text}</p>
+      <p class="eyebrow" data-reveal="fade">{site.instagram.handle}</p>
+      <h2 id="instagram-title" class="statement" data-split="words">{sections.instagram.title}</h2>
+      <p class="text-cocoa-ink/80" data-reveal="up">{sections.instagram.text}</p>
     </div>
-    <a href={site.instagram.url} target="_blank" rel="noopener" class="btn btn-outline self-start md:self-auto">
+    <a href={site.instagram.url} target="_blank" rel="noopener" class="btn btn-outline self-start md:self-auto" data-reveal="up">
       <Icon name="instagram" size={18} />
       {sections.instagram.cta}
     </a>
   </div>
-  <ul class="container-x mt-8 grid grid-cols-3 gap-[6px] md:grid-cols-6">
+  <ul class="container-x mt-8 grid grid-cols-3 gap-[6px] md:grid-cols-6" data-stagger="img">
     {
       feed.map((img) => (
         <li>

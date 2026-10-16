@@ -9,7 +9,7 @@ const letters = site.name.toUpperCase().split("");
 
 <section class="hero relative overflow-hidden" aria-labelledby="hero-title">
   <!-- Wordmark monumental (DESIGN.md: "enormous dark identity wordmark") -->
-  <p class="container-x display hero-wordmark select-none text-cocoa-ink" aria-hidden="true">
+  <p class="container-x display hero-wordmark select-none text-cocoa-ink" aria-hidden="true" data-parallax="-0.08">
     {letters.map((l, i) => <span class="hero-letter" style={`--i:${i}`}>{l}</span>)}
   </p>
 
@@ -27,7 +27,7 @@ const letters = site.name.toUpperCase().split("");
         class="hero-img aspect-[4/5] w-full object-cover object-[50%_30%]"
       />
       <!-- Motivo orbital: círculo de línea fina que cruza el borde de la foto -->
-      <svg class="hero-orbit pointer-events-none absolute -right-[22%] top-[18%] hidden w-[62%] md:block" viewBox="0 0 200 200" aria-hidden="true">
+      <svg class="hero-orbit pointer-events-none absolute -right-[22%] top-[18%] hidden w-[62%] md:block" data-parallax="-0.12" viewBox="0 0 200 200" aria-hidden="true">
         <circle cx="100" cy="100" r="99" fill="none" stroke="var(--color-fine-grey)" stroke-width="0.6" pathLength="1" />
       </svg>
     </div>

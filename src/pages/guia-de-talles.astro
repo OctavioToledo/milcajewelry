@@ -10,9 +10,9 @@ const ringsWithSize = (await getProducts()).filter((p) => p.variants?.some((v) =
   <section class="container-x grid gap-12 py-12 md:grid-cols-12 md:py-24">
     <div class="flex flex-col gap-12 md:col-span-5">
       <p class="eyebrow">Guía</p>
-      <h1 class="display text-[clamp(48px,13vw,110px)]">Talles de anillos</h1>
+      <h1 class="display text-[clamp(48px,13vw,110px)]" data-split="chars">Talles de anillos</h1>
       <p class="text-[17px]">{ringSizes.intro}</p>
-      <ol class="flex flex-col gap-12">
+      <ol class="flex flex-col gap-12" data-stagger="wipe">
         {
           ringSizes.steps.map((s, i) => (
             <li class="flex gap-12 border-t border-cocoa-ink pt-8">
@@ -28,7 +28,7 @@ const ringsWithSize = (await getProducts()).filter((p) => p.variants?.some((v) =
     </div>
 
     <div class="md:col-span-6 md:col-start-7">
-      <table class="w-full border-collapse text-left">
+      <table class="w-full border-collapse text-left" data-reveal="up">
         <caption class="eyebrow pb-8 text-left">Tabla de equivalencias</caption>
         <thead>
           <tr class="border-b border-cocoa-ink">

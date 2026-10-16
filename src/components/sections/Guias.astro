@@ -5,17 +5,17 @@ import { sections } from "../../content/sections";
 
 <section id="guias" aria-labelledby="guias-title" class="py-16 md:py-24">
   <div class="container-x flex flex-col gap-12">
-    <h2 id="guias-title" class="statement">{sections.guias.title}</h2>
-    <ul class="grid gap-12 md:grid-cols-2">
+    <h2 id="guias-title" class="statement" data-split="words">{sections.guias.title}</h2>
+    <ul class="grid gap-12 md:grid-cols-2" data-stagger="up">
       {
         sections.guias.items.map((g) => (
           <li>
-            <a href={g.href} class="group flex min-h-[132px] items-end justify-between gap-12 bg-milk-paper p-[18px] transition-colors hover:bg-peach-wash md:min-h-[200px] md:p-[24px]">
+            <a href={g.href} class="guide-card group relative flex min-h-[132px] items-end justify-between gap-12 overflow-hidden bg-milk-paper p-[18px] md:min-h-[200px] md:p-[24px]">
               <span class="flex flex-col gap-6">
                 <span class="font-ui text-[22px] font-semibold leading-tight md:text-[28px]">{g.title}</span>
                 <span class="text-cocoa-ink/80">{g.text}</span>
               </span>
-              <Icon name="arrow" size={28} class="shrink-0 transition-transform group-hover:translate-x-1" />
+              <Icon name="arrow" size={28} class="shrink-0 transition-transform duration-500 ease-[var(--ease-editorial)] group-hover:translate-x-2 group-hover:-rotate-45" />
             </a>
           </li>
         ))
