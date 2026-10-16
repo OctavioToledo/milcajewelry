@@ -44,4 +44,4 @@ Cloudflare Pages (sitio 100% estático, no necesita adapter):
 3. Node: lo toma de `.node-version` (24). Si no, agregá la variable `NODE_VERSION=24`.
 4. Cada push a `main` despliega solo.
 
-La URL de producción está configurada como `https://milcajewelry.pages.dev`. Si Cloudflare te da otra (por ejemplo, `milcajewelry-xxx.pages.dev`) o cuando haya dominio propio, cambiala en `astro.config.mjs` (`site`) y en `src/content/site.ts` (`url`): de ahí salen el sitemap, los links canónicos y las imágenes de vista previa al compartir.
+La URL de producción está configurada como `https://milcajewelry.octatoledo7.workers.dev`. Si Cloudflare te da otra (por ejemplo, `milcajewelry-xxx.pages.dev`) o cuando haya dominio propio, cambiala en `astro.config.mjs` (`site`) y en `src/content/site.ts` (`url`): de ahí salen el sitemap, los links canónicos y las imágenes de vista previa al compartir.

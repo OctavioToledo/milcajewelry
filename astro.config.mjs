@@ -5,7 +5,7 @@ import sitemap from "@astrojs/sitemap";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://milcajewelry.pages.dev", // TODO: dominio definitivo (también en src/content/site.ts)
+  site: "https://milcajewelry.octatoledo7.workers.dev", // TODO: dominio definitivo (también en src/content/site.ts)
   integrations: [sitemap()],
   image: {
     // Anchos para srcset por defecto; los masters miden ~460–680px.

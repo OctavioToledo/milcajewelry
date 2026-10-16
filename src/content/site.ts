@@ -6,7 +6,7 @@ export const site = {
   name: "Milca",
   fullName: "Milca Jewelry",
   tagline: "Essential Jewelry",
-  url: "https://milcajewelry.pages.dev", // TODO: dominio definitivo
+  url: "https://milcajewelry.octatoledo7.workers.dev", // TODO: dominio definitivo
   // Título de la home en Google y al compartir el link (≤ 60 caracteres).
   homeTitle: "Milca Jewelry · Joyas doradas para todos los días",
   description:
