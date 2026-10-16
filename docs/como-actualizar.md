@@ -20,8 +20,8 @@ La lectura del catálogo pasa toda por `src/lib/catalog.ts` (`getProducts`, `get
 1. La marca edita una Google Sheet y la publica como CSV (Archivo → Compartir → Publicar en la web → CSV).
 2. En `catalog.ts`, `loadProducts()` pasa a hacer `fetch` del CSV y a convertir cada fila en un `Product`.
 3. Para que los cambios se vean:
-   - **Opción simple:** un Deploy Hook de Vercel que la marca dispara con un botón (o un cron diario), y el sitio se regenera en ~1 minuto.
-   - **Opción automática:** adapter `@astrojs/vercel` con ISR (revalidación cada X minutos).
+   - **Opción simple:** un Deploy Hook de Cloudflare Pages (Settings → Builds → Deploy hooks) que la marca dispara con un botón o un link guardado, y el sitio se regenera en ~1 minuto.
+   - **Opción automática:** un Cron Trigger de Cloudflare (Worker chico) que llama a ese Deploy Hook cada X horas.
 4. Fotos: la columna `fotos` lleva URLs (por ejemplo, de Cloudinary o de una carpeta de Drive pública), separadas por `|`. Se usarían con `<Image>` remoto (`image.domains` en `astro.config.mjs`).
 
 ### Columnas de la planilla

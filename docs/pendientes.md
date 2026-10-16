@@ -29,5 +29,5 @@ Todo lo de esta lista está cargado con un valor general o ilustrativo y marcado
 - [ ] Tabla de talles de anillo que usa la marca
 
 ## Otros
-- [ ] Deploy en Vercel (conectar el repo de GitHub) y probar el link de WhatsApp en un celular real con el número definitivo
+- [ ] Deploy en Cloudflare Pages (ver README) y probar el link de WhatsApp en un celular real con el número definitivo
 - [ ] URL del sitio de Devott para el crédito del footer

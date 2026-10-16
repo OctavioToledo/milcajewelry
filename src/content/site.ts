@@ -6,7 +6,7 @@ export const site = {
   name: "Milca",
   fullName: "Milca Jewelry",
   tagline: "Essential Jewelry",
-  url: "https://milcajewelry.vercel.app", // TODO: dominio definitivo
+  url: "https://milcajewelry.pages.dev", // TODO: dominio definitivo
   description:
     "Joyas esenciales para todos los días. Aros, collares, pulseras y anillos desde San Martín, Mendoza, con envíos a todo el país.",
   location: {

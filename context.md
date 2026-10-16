@@ -40,7 +40,7 @@ La demo se va a mostrar en el celular del dueño para cerrar la venta: el flujo 
 - Estado del carrito: store compartido entre islas con `nanostores` (o equivalente mínimo), persistido en `localStorage` (con try/catch y versión de esquema). Reducer puro para las acciones del carrito (testeable).
 - Galería: scroll-snap nativo con CSS para el swipe; lightbox propio con pinch-zoom en móvil y zoom al hacer clic en desktop. Solo si el zoom nativo no alcanza, usar una librería liviana y justificarlo.
 - Tests: Vitest.
-- Deploy en Vercel (`@astrojs/vercel` solo si hace falta algo más que estático).
+- Deploy en Cloudflare Pages (sitio estático, sin adapter).
 
 ## Estructura del proyecto
 ```

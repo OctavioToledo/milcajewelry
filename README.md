@@ -37,4 +37,11 @@ docs/          → decisiones, pendientes y cómo actualizar el catálogo
 
 ## Deploy
 
-Vercel detecta Astro solo: importá el repo en vercel.com (framework *Astro*, comando `npm run build`, salida `dist`). Cuando haya dominio, actualizalo en `astro.config.mjs` (`site`) y en `src/content/site.ts` (`url`).
+Cloudflare Pages (sitio 100% estático, no necesita adapter):
+
+1. Cloudflare → Workers & Pages → Create → Pages → *Connect to Git* → elegí `OctavioToledo/milcajewelry`.
+2. Framework preset: **Astro**. Build command: `npm run build`. Output directory: `dist`.
+3. Node: lo toma de `.node-version` (24). Si no, agregá la variable `NODE_VERSION=24`.
+4. Cada push a `main` despliega solo.
+
+La URL de producción está configurada como `https://milcajewelry.pages.dev`. Si Cloudflare te da otra (por ejemplo, `milcajewelry-xxx.pages.dev`) o cuando haya dominio propio, cambiala en `astro.config.mjs` (`site`) y en `src/content/site.ts` (`url`): de ahí salen el sitemap, los links canónicos y las imágenes de vista previa al compartir.
