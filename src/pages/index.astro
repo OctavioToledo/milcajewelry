@@ -1,0 +1,51 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import Novedades from "../components/sections/Novedades.astro";
+import Catalogo from "../components/sections/Catalogo.astro";
+import Regalo from "../components/sections/Regalo.astro";
+import Materiales from "../components/sections/Materiales.astro";
+import ComoComprar from "../components/sections/ComoComprar.astro";
+import EnviosPagos from "../components/sections/EnviosPagos.astro";
+import Guias from "../components/sections/Guias.astro";
+import Nosotros from "../components/sections/Nosotros.astro";
+import Faq from "../components/sections/Faq.astro";
+import Instagram from "../components/sections/Instagram.astro";
+import { site } from "../content/site";
+import { getImage } from "astro:assets";
+import heroImage from "../assets/products/aros-flora/02.webp";
+
+const og = await getImage({ src: heroImage, format: "jpeg", width: heroImage.width });
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "JewelryStore",
+  name: site.fullName,
+  description: site.description,
+  url: site.url,
+  image: new URL(og.src, site.url).href,
+  sameAs: [site.instagram.url],
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: site.location.city,
+    addressRegion: site.location.province,
+    addressCountry: "AR",
+  },
+  paymentAccepted: "Efectivo, Transferencia",
+  currenciesAccepted: "ARS",
+};
+---
+
+<BaseLayout jsonLd={jsonLd}>
+  <Hero />
+  <Novedades />
+  <Catalogo />
+  <Regalo />
+  <Materiales />
+  <ComoComprar />
+  <EnviosPagos />
+  <Guias />
+  <Nosotros />
+  <Faq />
+  <Instagram />
+</BaseLayout>

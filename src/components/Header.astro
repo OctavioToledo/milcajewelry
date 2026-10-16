@@ -1,0 +1,44 @@
+---
+import Logo from "../assets/brand/logo.svg";
+import Icon from "./Icon.astro";
+import { site } from "../content/site";
+---
+
+<header class="sticky top-0 z-40 border-b border-cocoa-ink/10 bg-paper-white/95 backdrop-blur-sm">
+  <div class="container-x flex h-[60px] items-center justify-between gap-12 md:h-[72px]">
+    <a href="/" class="-ml-2 flex min-h-11 items-center px-2" aria-label={`${site.fullName}, inicio`}>
+      <Logo class="h-[30px] w-auto md:h-[36px]" aria-hidden="true" />
+    </a>
+
+    <nav aria-label="Principal" class="hidden md:block">
+      <ul class="flex items-center gap-12">
+        {
+          site.nav.map((item) => (
+            <li>
+              <a href={item.href} class="nav-control inline-flex min-h-11 items-center px-8 hover:underline">
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="flex items-center">
+      <a href="/#catalogo" class="nav-control inline-flex min-h-11 items-center px-8 md:hidden">Catálogo</a>
+      <button
+        type="button"
+        class="relative -mr-2 inline-flex size-11 items-center justify-center"
+        data-cart-open
+        aria-label="Abrir tu pedido"
+      >
+        <Icon name="bag" size={24} />
+        <span
+          data-cart-count
+          class="absolute right-0.5 top-1 hidden min-w-[18px] bg-cocoa-ink px-1 text-center font-ui text-[11px] font-semibold leading-[18px] text-milk-paper"
+          aria-hidden="true">0</span
+        >
+      </button>
+    </div>
+  </div>
+</header>

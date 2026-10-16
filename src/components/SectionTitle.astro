@@ -1,0 +1,21 @@
+---
+/**
+ * Título de sección. "display": una palabra a escala de sección (Anton, DESIGN.md Bonto).
+ * "statement": frase corta en Archivo Black.
+ */
+interface Props {
+  id?: string;
+  eyebrow?: string;
+  variant?: "display" | "statement";
+  as?: "h1" | "h2";
+  class?: string;
+}
+const { id, eyebrow, variant = "display", as: Tag = "h2", class: className } = Astro.props;
+---
+
+<div class:list={["flex flex-col gap-8", className]}>
+  {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+  <Tag id={id} class:list={[variant === "display" ? "display text-[clamp(56px,15vw,132px)]" : "statement"]}>
+    <slot />
+  </Tag>
+</div>

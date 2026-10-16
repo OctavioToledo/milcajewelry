@@ -1,0 +1,54 @@
+---
+import { Picture } from "astro:assets";
+import Icon from "../Icon.astro";
+import { sections } from "../../content/sections";
+import { site } from "../../content/site";
+import a from "../../assets/products/aros-flora/02.webp";
+import b from "../../assets/products/anillos-escultura/02.webp";
+import c from "../../assets/brand/packaging-sobres.webp";
+import d from "../../assets/products/esclava-dione/01.webp";
+import e from "../../assets/products/anillo-ondas/01.webp";
+import f from "../../assets/products/collar-corazon/01.webp";
+
+const feed = [
+  { src: a, alt: "Modelo con los Aros Flora" },
+  { src: b, alt: "Anillos Escultura sobre hielo" },
+  { src: c, alt: "Packaging de sobres Milca Essential Jewelry" },
+  { src: d, alt: "Esclava Dione" },
+  { src: e, alt: "Anillos Ondas dorado y plateado" },
+  { src: f, alt: "Modelo con la Gargantilla Corazón" },
+];
+---
+
+<section id="instagram" aria-labelledby="instagram-title" class="pb-16 md:pb-24">
+  <div class="container-x flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+    <div class="flex flex-col gap-6">
+      <p class="eyebrow">{site.instagram.handle}</p>
+      <h2 id="instagram-title" class="statement">{sections.instagram.title}</h2>
+      <p class="text-cocoa-ink/80">{sections.instagram.text}</p>
+    </div>
+    <a href={site.instagram.url} target="_blank" rel="noopener" class="btn btn-outline self-start md:self-auto">
+      <Icon name="instagram" size={18} />
+      {sections.instagram.cta}
+    </a>
+  </div>
+  <ul class="container-x mt-8 grid grid-cols-3 gap-[6px] md:grid-cols-6">
+    {
+      feed.map((img) => (
+        <li>
+          <a href={site.instagram.url} target="_blank" rel="noopener" class="group block aspect-square overflow-hidden" aria-label={`${img.alt} — ver en Instagram`}>
+            <Picture
+              src={img.src}
+              alt=""
+              widths={[160, 320]}
+              sizes="(min-width: 768px) 16vw, 33vw"
+              formats={["avif", "webp"]}
+              fallbackFormat="webp"
+              class="size-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</section>

@@ -1,0 +1,11 @@
+---
+import { formatPrice } from "../lib/format";
+
+interface Props {
+  value: number | null;
+  class?: string;
+}
+const { value, class: className } = Astro.props;
+---
+
+<span class={className}>{value === null ? "Consultar precio" : formatPrice(value)}</span>

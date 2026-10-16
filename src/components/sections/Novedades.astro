@@ -1,0 +1,29 @@
+---
+import ProductCard from "../ProductCard.astro";
+import SectionTitle from "../SectionTitle.astro";
+import { getNewProducts } from "../../lib/catalog";
+import { sections } from "../../content/sections";
+
+const products = await getNewProducts();
+---
+
+{
+  products.length > 0 && (
+    <section id="novedades" aria-labelledby="novedades-title" class="bg-milk-paper py-16 md:py-24">
+      <div class="container-x flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        <SectionTitle id="novedades-title">{sections.novedades.title}</SectionTitle>
+        <p class="max-w-[36ch] text-cocoa-ink/80 md:pb-3">{sections.novedades.text}</p>
+      </div>
+      <ul
+        class="no-scrollbar mt-8 flex snap-x snap-mandatory gap-12 overflow-x-auto scroll-px-[18px] px-[18px] pb-2 md:mx-auto md:max-w-[1440px] md:scroll-px-9 md:px-9"
+        aria-label={sections.novedades.title}
+      >
+        {products.map((p) => (
+          <li class="w-[64vw] max-w-[340px] shrink-0 snap-start md:w-[calc((100%-36px)/3.4)]">
+            <ProductCard product={p} sizes="(min-width: 768px) 30vw, 64vw" />
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}

@@ -1,0 +1,52 @@
+---
+import { Picture } from "astro:assets";
+import type { Product } from "../content/types";
+import StatusBadge from "./StatusBadge.astro";
+import Price from "./Price.astro";
+
+interface Props {
+  product: Product;
+  sizes?: string;
+  headingLevel?: "h2" | "h3";
+}
+const { product, sizes = "(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw", headingLevel = "h3" } = Astro.props;
+const [cover, second] = product.images;
+const Heading = headingLevel;
+---
+
+<article class="product-card group relative flex flex-col gap-8">
+  <div class="relative aspect-[4/5] overflow-hidden bg-milk-paper">
+    <Picture
+      src={cover.src}
+      alt={cover.alt}
+      widths={[240, 360, cover.src.width]}
+      sizes={sizes}
+      formats={["avif", "webp"]}
+      fallbackFormat="webp"
+      class:list={["absolute inset-0 size-full object-cover transition-[transform,opacity] duration-700 ease-[var(--ease-editorial)] group-hover:scale-[1.03]", second && "group-hover:opacity-0", product.status === "agotado" && "opacity-60"]}
+    />
+    {
+      second && (
+        <Picture
+          src={second.src}
+          alt=""
+          widths={[240, 360, second.src.width]}
+          sizes={sizes}
+          formats={["avif", "webp"]}
+          fallbackFormat="webp"
+          class="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-700 group-hover:opacity-100"
+        />
+      )
+    }
+    <StatusBadge status={product.status} isNew={product.isNew} class="absolute left-2 top-2" />
+  </div>
+  <div class="flex flex-col gap-[2px]">
+    <Heading class="font-ui text-[14px] font-semibold uppercase leading-tight tracking-[0.02em]">
+      <a href={`/producto/${product.slug}`} class="after:absolute after:inset-0 focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:outline-offset-4 focus-visible:after:outline-cocoa-ink">
+        {product.name}
+      </a>
+    </Heading>
+    <p class="text-[13px] text-cocoa-ink/70">{product.material}</p>
+    <Price value={product.price} class="text-[14px] font-medium" />
+  </div>
+</article>

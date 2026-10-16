@@ -1,0 +1,26 @@
+---
+import SectionTitle from "../SectionTitle.astro";
+import { sections } from "../../content/sections";
+
+const { materiales } = sections;
+---
+
+<section id="materiales" aria-labelledby="materiales-title" class="py-16 md:py-24">
+  <div class="container-x grid gap-12 md:grid-cols-12">
+    <SectionTitle id="materiales-title" variant="statement" eyebrow="Calidad" class="md:col-span-4">{materiales.title}</SectionTitle>
+    <ul class="grid gap-12 md:col-span-7 md:col-start-6 md:grid-cols-2">
+      {
+        materiales.items.map((m) => (
+          <li class="flex flex-col gap-6 border-t border-cocoa-ink pt-12">
+            <h3 class="font-ui text-[18px] font-semibold">{m.name}</h3>
+            <p class="text-cocoa-ink/80">{m.text}</p>
+          </li>
+        ))
+      }
+      <li class="flex flex-col gap-6 bg-join-blush p-[18px] md:col-span-2">
+        <h3 class="font-ui text-[18px] font-semibold">{materiales.warranty.title}</h3>
+        <p class="text-cocoa-ink/80">{materiales.warranty.text}</p>
+      </li>
+    </ul>
+  </div>
+</section>

@@ -1,0 +1,206 @@
+---
+import { getImage } from "astro:assets";
+import type { Product } from "../content/types";
+import Icon from "./Icon.astro";
+import { formatPrice } from "../lib/format";
+import { backInStockMessage, productInquiryMessage, whatsappLink } from "../lib/whatsapp";
+
+interface Props {
+  product: Product;
+  url: string;
+}
+const { product, url } = Astro.props;
+const thumb = await getImage({ src: product.images[0].src, format: "webp", width: 160 });
+const soldOut = product.status === "agotado";
+const consult = product.price === null;
+
+const data = {
+  slug: product.slug,
+  name: product.name,
+  image: thumb.src,
+  price: product.price,
+  variants: (product.variants ?? []).map((v) => ({
+    name: v.name,
+    required: v.required,
+    options: v.options.map((o) => ({ label: o.label, priceDelta: o.priceDelta ?? 0, soldOut: o.status === "agotado" })),
+  })),
+};
+---
+
+<div class="product-buy flex flex-col gap-12" data-product-buy data-product={JSON.stringify(data)}>
+  {
+    product.variants?.map((v, vi) => (
+      <fieldset class="flex flex-col gap-8" data-variant={vi}>
+        <legend class="mb-8 flex w-full items-baseline justify-between gap-12">
+          <span class="eyebrow">
+            {v.name}
+            {v.required && <span class="sr-only"> (obligatorio)</span>}
+            <span class="ml-6 normal-case tracking-normal text-cocoa-ink/70" data-variant-selected />
+          </span>
+          {v.type === "talle" && (
+            <a href="/guia-de-talles" class="text-[13px] underline underline-offset-4">
+              ¿No sabés tu talle? Mirá la guía
+            </a>
+          )}
+        </legend>
+        <div class="flex flex-wrap gap-8">
+          {v.options.map((o, oi) => (
+            <button
+              type="button"
+              class="inline-flex min-h-11 min-w-11 items-center justify-center border border-cocoa-ink/40 px-12 font-ui text-[14px] font-semibold transition-colors hover:border-cocoa-ink aria-pressed:border-cocoa-ink aria-pressed:bg-cocoa-ink aria-pressed:text-milk-paper disabled:cursor-not-allowed disabled:border-cocoa-ink/15 disabled:text-cocoa-ink/35 disabled:line-through"
+              data-option={oi}
+              aria-pressed="false"
+              disabled={o.status === "agotado" || soldOut}
+              aria-label={o.status === "agotado" ? `${o.label} (agotado)` : undefined}
+            >
+              {o.label}
+            </button>
+          ))}
+        </div>
+      </fieldset>
+    ))
+  }
+
+  <p class="hidden text-[14px] font-medium text-shortlist-clay" role="alert" data-buy-error></p>
+
+  <!-- Barra de compra: sticky al fondo en móvil, en línea en desktop -->
+  <div
+    class="fixed inset-x-0 bottom-0 z-30 flex items-center gap-8 border-t border-cocoa-ink/10 bg-paper-white px-[18px] pb-[calc(12px+env(safe-area-inset-bottom))] pt-12 md:static md:z-auto md:border-0 md:p-0"
+    data-buy-bar
+  >
+    {
+      soldOut ? (
+        <>
+          <button type="button" class="btn btn-solid flex-1" disabled>
+            Agotado
+          </button>
+          <a href={whatsappLink(backInStockMessage(product.name, url))} target="_blank" rel="noopener" class="btn btn-outline flex-1">
+            Avisame si vuelve
+          </a>
+        </>
+      ) : (
+        <>
+          {!consult && (
+          <div class="flex h-[48px] shrink-0 items-center border border-cocoa-ink" role="group" aria-label="Cantidad">
+            <button type="button" class="inline-flex size-11 items-center justify-center" data-qty-minus aria-label="Restar una">
+              <Icon name="minus" size={16} />
+            </button>
+            <output class="w-[24px] text-center font-ui font-semibold" data-qty aria-live="polite">
+              1
+            </output>
+            <button type="button" class="inline-flex size-11 items-center justify-center" data-qty-plus aria-label="Sumar una">
+              <Icon name="plus" size={16} />
+            </button>
+          </div>
+          )}
+          {consult ? (
+            <a href={whatsappLink(productInquiryMessage(product.name, url))} target="_blank" rel="noopener" class="btn btn-solid flex-1">
+              <Icon name="whatsapp" size={18} />
+              Consultar por WhatsApp
+            </a>
+          ) : (
+            <button type="button" class="btn btn-solid flex-1" data-add>
+              Agregar al pedido
+              <span class="hidden font-body normal-case tracking-normal sm:inline" data-buy-price>
+                · {formatPrice(product.price!)}
+              </span>
+            </button>
+          )}
+        </>
+      )
+    }
+  </div>
+  {
+    consult && !soldOut && (
+      <button type="button" class="self-start text-[14px] underline underline-offset-4" data-add>
+        O sumala a tu pedido y consultamos el precio juntas
+      </button>
+    )
+  }
+</div>
+
+<script>
+  import { dispatch, openCart } from "../lib/cart/store";
+  import { formatPrice } from "../lib/format";
+
+  type Data = {
+    slug: string;
+    name: string;
+    image: string;
+    price: number | null;
+    variants: { name: string; required: boolean; options: { label: string; priceDelta: number; soldOut: boolean }[] }[];
+  };
+
+  for (const root of document.querySelectorAll<HTMLElement>("[data-product-buy]")) {
+    const data = JSON.parse(root.dataset.product!) as Data;
+    const selected: (number | null)[] = data.variants.map(() => null);
+    const error = root.querySelector<HTMLElement>("[data-buy-error]")!;
+    const qtyEl = root.querySelector<HTMLOutputElement>("[data-qty]");
+    const priceEl = root.querySelector<HTMLElement>("[data-buy-price]");
+    let qty = 1;
+
+    const unitPrice = () =>
+      data.price === null ? null : data.price + selected.reduce<number>((sum, oi, vi) => sum + (oi === null ? 0 : data.variants[vi].options[oi].priceDelta), 0);
+
+    root.querySelectorAll<HTMLFieldSetElement>("[data-variant]").forEach((fs) => {
+      const vi = Number(fs.dataset.variant);
+      fs.addEventListener("click", (e) => {
+        const btn = (e.target as HTMLElement).closest<HTMLButtonElement>("[data-option]");
+        if (!btn || btn.disabled) return;
+        selected[vi] = Number(btn.dataset.option);
+        fs.querySelectorAll("[data-option]").forEach((b) => b.setAttribute("aria-pressed", String(b === btn)));
+        fs.querySelector("[data-variant-selected]")!.textContent = data.variants[vi].options[selected[vi]!].label;
+        fs.classList.remove("is-missing");
+        if (selected.every((s, i) => s !== null || !data.variants[i].required)) error.classList.add("hidden");
+        const p = unitPrice();
+        if (priceEl && p !== null) priceEl.textContent = `· ${formatPrice(p)}`;
+      });
+    });
+
+    const setQty = (n: number) => {
+      qty = Math.min(20, Math.max(1, n));
+      if (qtyEl) qtyEl.textContent = String(qty);
+    };
+    root.querySelector("[data-qty-minus]")?.addEventListener("click", () => setQty(qty - 1));
+    root.querySelector("[data-qty-plus]")?.addEventListener("click", () => setQty(qty + 1));
+
+    root.querySelectorAll("[data-add]").forEach((btn) =>
+      btn.addEventListener("click", () => {
+        const missing = data.variants.map((v, i) => (v.required && selected[i] === null ? v.name.toLowerCase() : null)).filter(Boolean);
+        if (missing.length) {
+          error.textContent = `Elegí ${missing.join(" y ")} para agregarlo al pedido.`;
+          error.classList.remove("hidden");
+          const firstMissing = root.querySelector<HTMLElement>(`[data-variant="${selected.findIndex((s, i) => s === null && data.variants[i].required)}"]`);
+          firstMissing?.classList.add("is-missing");
+          firstMissing?.scrollIntoView({ block: "center", behavior: "smooth" });
+          firstMissing?.querySelector<HTMLButtonElement>("[data-option]:not(:disabled)")?.focus({ preventScroll: true });
+          return;
+        }
+        dispatch({
+          type: "add",
+          line: {
+            slug: data.slug,
+            name: data.name,
+            image: data.image,
+            variants: selected.flatMap((oi, vi) => (oi === null ? [] : [`${data.variants[vi].name} ${data.variants[vi].options[oi].label}`])),
+            unitPrice: unitPrice(),
+            qty,
+          },
+        });
+        setQty(1);
+        openCart();
+      }),
+    );
+  }
+</script>
+
+<style>
+  .is-missing [data-option]:not(:disabled) {
+    border-color: var(--color-shortlist-clay);
+    animation: nudge 0.4s;
+  }
+  @keyframes nudge {
+    25% { transform: translateX(-3px); }
+    75% { transform: translateX(3px); }
+  }
+</style>

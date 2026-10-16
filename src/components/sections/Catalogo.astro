@@ -1,0 +1,105 @@
+---
+import ProductCard from "../ProductCard.astro";
+import SectionTitle from "../SectionTitle.astro";
+import { getCategories, getCollections, getProducts } from "../../lib/catalog";
+import { sections } from "../../content/sections";
+
+const [products, categories, collections] = await Promise.all([getProducts(), getCategories(), getCollections()]);
+const chip =
+  "nav-control inline-flex min-h-11 shrink-0 snap-start items-center border border-cocoa-ink px-[14px] transition-colors aria-pressed:bg-cocoa-ink aria-pressed:text-milk-paper hover:bg-cocoa-ink/5 aria-pressed:hover:bg-cocoa-ink";
+---
+
+<section id="catalogo" aria-labelledby="catalogo-title" class="py-16 md:py-24">
+  <div class="container-x flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+    <SectionTitle id="catalogo-title">{sections.catalogo.title}</SectionTitle>
+    <p class="max-w-[36ch] text-cocoa-ink/80 md:pb-3">{sections.catalogo.text}</p>
+  </div>
+
+  <div class="mx-auto max-w-[1440px]">
+    <div
+      class="no-scrollbar mt-8 flex snap-x gap-8 overflow-x-auto scroll-px-[18px] px-[18px] py-1 md:scroll-px-9 md:px-9"
+      role="group"
+      aria-label="Filtrar el catálogo"
+      data-catalog-filters
+    >
+      <button type="button" class={chip} data-filter="" aria-pressed="true">{sections.catalogo.all}</button>
+      {
+        categories.map((c) => (
+          <button type="button" class={chip} data-filter={`categoria:${c.id}`} aria-pressed="false">
+            {c.plural}
+          </button>
+        ))
+      }
+      <span class="mx-1 w-px shrink-0 self-stretch bg-cocoa-ink/20" aria-hidden="true"></span>
+      {
+        collections.map((c) => (
+          <button type="button" class={chip} data-filter={`coleccion:${c.id}`} aria-pressed="false">
+            {c.name}
+          </button>
+        ))
+      }
+    </div>
+  </div>
+
+  <div class="container-x mt-8">
+    <p class="sr-only" aria-live="polite" data-catalog-status></p>
+    <ul class="grid grid-cols-2 gap-x-12 gap-y-8 md:grid-cols-3 md:gap-y-12 lg:grid-cols-4" data-catalog-grid>
+      {
+        products.map((p) => (
+          <li data-category={p.category} data-collections={(p.collections ?? []).join(" ")}>
+            <ProductCard product={p} />
+          </li>
+        ))
+      }
+    </ul>
+    <p class="hidden py-12 text-center text-cocoa-ink/70" data-catalog-empty>{sections.catalogo.empty}</p>
+  </div>
+</section>
+
+<script>
+  // Filtro del catálogo: HTML estático + mostrar/ocultar, reflejado en la URL (?categoria=aros | ?coleccion=para-regalo).
+  const root = document.querySelector<HTMLElement>("[data-catalog-filters]");
+  const items = [...document.querySelectorAll<HTMLLIElement>("[data-catalog-grid] > li")];
+  const empty = document.querySelector<HTMLElement>("[data-catalog-empty]");
+  const status = document.querySelector<HTMLElement>("[data-catalog-status]");
+
+  function apply(filter: string, updateUrl: boolean) {
+    const [kind, value] = filter.split(":");
+    let visible = 0;
+    for (const li of items) {
+      const show =
+        !filter ||
+        (kind === "categoria" && li.dataset.category === value) ||
+        (kind === "coleccion" && (li.dataset.collections ?? "").split(" ").includes(value));
+      li.hidden = !show;
+      if (show) visible++;
+    }
+    root?.querySelectorAll<HTMLButtonElement>("[data-filter]").forEach((b) => {
+      b.setAttribute("aria-pressed", String(b.dataset.filter === filter));
+    });
+    empty?.classList.toggle("hidden", visible > 0);
+    if (status) status.textContent = `${visible} ${visible === 1 ? "pieza" : "piezas"}`;
+
+    if (updateUrl) {
+      const url = new URL(location.href);
+      url.searchParams.delete("categoria");
+      url.searchParams.delete("coleccion");
+      if (filter) url.searchParams.set(kind, value);
+      history.replaceState(null, "", url);
+    }
+  }
+
+  root?.addEventListener("click", (e) => {
+    const btn = (e.target as HTMLElement).closest<HTMLButtonElement>("[data-filter]");
+    if (!btn) return;
+    apply(btn.dataset.filter ?? "", true);
+    btn.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "smooth" });
+  });
+
+  const params = new URLSearchParams(location.search);
+  const initial = params.get("categoria") ? `categoria:${params.get("categoria")}` : params.get("coleccion") ? `coleccion:${params.get("coleccion")}` : "";
+  if (initial && root?.querySelector(`[data-filter="${CSS.escape(initial)}"]`)) {
+    apply(initial, false);
+    if (!location.hash) document.getElementById("catalogo")?.scrollIntoView();
+  }
+</script>

@@ -1,0 +1,99 @@
+---
+import { Picture } from "astro:assets";
+import Icon from "./Icon.astro";
+import { site } from "../content/site";
+import heroImage from "../assets/products/aros-flora/02.webp";
+
+const letters = site.name.toUpperCase().split("");
+---
+
+<section class="hero relative overflow-hidden" aria-labelledby="hero-title">
+  <!-- Wordmark monumental (DESIGN.md: "enormous dark identity wordmark") -->
+  <p class="container-x display hero-wordmark select-none text-cocoa-ink" aria-hidden="true">
+    {letters.map((l, i) => <span class="hero-letter" style={`--i:${i}`}>{l}</span>)}
+  </p>
+
+  <div class="container-x grid gap-8 pb-16 pt-4 md:grid-cols-12 md:gap-12 md:pb-24 md:pt-6">
+    <div class="hero-media relative md:col-span-6 lg:col-span-5">
+      <Picture
+        src={heroImage}
+        alt="Modelo de perfil con los Aros Flora dorados con perla"
+        widths={[375, 560, heroImage.width]}
+        sizes="(min-width: 1024px) 40vw, (min-width: 768px) 50vw, 100vw"
+        formats={["avif", "webp"]}
+        fallbackFormat="webp"
+        loading="eager"
+        fetchpriority="high"
+        class="hero-img aspect-[4/5] w-full object-cover object-[50%_30%]"
+      />
+      <!-- Motivo orbital: círculo de línea fina que cruza el borde de la foto -->
+      <svg class="hero-orbit pointer-events-none absolute -right-[22%] top-[18%] hidden w-[62%] md:block" viewBox="0 0 200 200" aria-hidden="true">
+        <circle cx="100" cy="100" r="99" fill="none" stroke="var(--color-fine-grey)" stroke-width="0.6" pathLength="1" />
+      </svg>
+    </div>
+
+    <div class="hero-copy flex flex-col justify-end gap-12 md:justify-start md:pt-24 md:col-span-5 md:col-start-8 lg:col-span-4 lg:col-start-8">
+      <p class="eyebrow">{site.hero.eyebrow} · {site.location.province}</p>
+      <h1 id="hero-title" class="font-ui text-[28px] font-semibold leading-[1.1] md:text-[34px]">{site.hero.title}</h1>
+      <p class="max-w-[42ch] text-[15px] text-cocoa-ink/80">{site.hero.text}</p>
+      <a href="#catalogo" class="btn btn-solid mt-6 self-start">
+        {site.hero.cta}
+        <Icon name="arrow" size={18} />
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero-wordmark {
+    --pad: 18px;
+    display: flex;
+    white-space: nowrap;
+    /* "MILCA" en Anton mide ~2.24em: llenamos el ancho del contenedor */
+    font-size: calc((min(100vw, 1440px) - 2 * var(--pad)) / 2.26);
+    line-height: 0.9;
+    padding-top: 0.03em;
+    letter-spacing: -0.02em;
+    overflow: hidden;
+    padding-bottom: 0.02em;
+  }
+  @media (min-width: 768px) {
+    .hero-wordmark { --pad: 36px; }
+  }
+  .hero-letter {
+    display: inline-block;
+    animation: rise 1.1s var(--ease-editorial) both;
+    animation-delay: calc(var(--i) * 70ms);
+  }
+  .hero-img {
+    animation: unveil 1.3s var(--ease-editorial) 0.35s both;
+  }
+  .hero-orbit circle {
+    stroke-dasharray: 1;
+    animation: draw 1.8s var(--ease-editorial) 0.9s both;
+  }
+  .hero-copy > * {
+    animation: fade-up 0.9s var(--ease-editorial) both;
+  }
+  .hero-copy > :nth-child(1) { animation-delay: 0.7s; }
+  .hero-copy > :nth-child(2) { animation-delay: 0.8s; }
+  .hero-copy > :nth-child(3) { animation-delay: 0.9s; }
+  .hero-copy > :nth-child(4) { animation-delay: 1s; }
+
+  @keyframes rise {
+    from { transform: translateY(105%); }
+    to { transform: translateY(0); }
+  }
+  @keyframes unveil {
+    from { clip-path: inset(100% 0 0 0); transform: scale(1.08); }
+    to { clip-path: inset(0 0 0 0); transform: scale(1); }
+  }
+  @keyframes draw {
+    from { stroke-dashoffset: 1; }
+    to { stroke-dashoffset: 0; }
+  }
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: none; }
+  }
+</style>

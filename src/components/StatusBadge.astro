@@ -1,0 +1,22 @@
+---
+import type { ProductStatus } from "../content/types";
+
+interface Props {
+  status: ProductStatus;
+  isNew?: boolean;
+  class?: string;
+}
+const { status, isNew, class: className } = Astro.props;
+
+// Sin verde/rojo (DESIGN.md): la gama cocoa/peach marca el estado.
+const badge =
+  status === "agotado"
+    ? { label: "Agotado", cls: "bg-paper-white text-cocoa-ink border border-cocoa-ink" }
+    : status === "ultimas-unidades"
+      ? { label: "Últimas unidades", cls: "bg-cocoa-ink text-talent-peach" }
+      : isNew
+        ? { label: "Nuevo", cls: "bg-join-blush text-cocoa-ink" }
+        : null;
+---
+
+{badge && <span class:list={["eyebrow inline-block px-8 py-[5px] text-[11px]", badge.cls, className]}>{badge.label}</span>}

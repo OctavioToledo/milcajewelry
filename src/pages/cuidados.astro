@@ -1,0 +1,35 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { care } from "../content/care";
+import { sections } from "../content/sections";
+---
+
+<BaseLayout title="Cuidados de tus joyas" description="Cómo cuidar tus joyas de acero y acero con baño de oro para que duren y sigan brillando.">
+  <section class="container-x flex flex-col gap-12 py-12 md:py-24">
+    <p class="eyebrow">Guía</p>
+    <h1 class="display text-[clamp(48px,13vw,110px)]">Cuidados</h1>
+    <p class="max-w-[52ch] text-[17px]">Con unos pocos gestos tus joyas duran mucho más. Esto es lo que recomendamos según el material.</p>
+
+    <div class="mt-6 grid gap-12 md:grid-cols-2">
+      {
+        care.map((c) => (
+          <section class="flex flex-col gap-12 bg-milk-paper p-[18px] md:p-[24px]" aria-labelledby={`care-${c.id}`}>
+            <h2 id={`care-${c.id}`} class="statement">
+              {c.material}
+            </h2>
+            <ul class="flex flex-col gap-8">
+              {c.tips.map((t) => (
+                <li class="border-t border-cocoa-ink/20 pt-8">{t}</li>
+              ))}
+            </ul>
+          </section>
+        ))
+      }
+    </div>
+
+    <div class="mt-6 flex flex-col gap-6 border-t border-cocoa-ink pt-12">
+      <h2 class="font-ui text-[18px] font-semibold">{sections.materiales.warranty.title}</h2>
+      <p class="max-w-[60ch] text-cocoa-ink/80">{sections.materiales.warranty.text}</p>
+    </div>
+  </section>
+</BaseLayout>
